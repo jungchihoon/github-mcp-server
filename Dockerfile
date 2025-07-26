@@ -100,8 +100,8 @@ CMD ["node", "dist/index.js"]
 # Metadata labels
 LABEL \
     org.opencontainers.image.title="GitHub MCP Server" \
-    org.opencontainers.image.description="Comprehensive Git repository management through Model Context Protocol with organized CLI workflows" \
-    org.opencontainers.image.version="1.8.0" \
+    org.opencontainers.image.description="Enhanced Git workflow management through MCP with 15 basic operations, 14 advanced workflows, and comprehensive remote management" \
+    org.opencontainers.image.version="1.8.3" \
     org.opencontainers.image.authors="Sharique Chaudhary" \
     org.opencontainers.image.source="https://github.com/0xshariq/github-mcp-server" \
     org.opencontainers.image.licenses="ISC" \
