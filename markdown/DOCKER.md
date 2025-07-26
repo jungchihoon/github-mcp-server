@@ -1,53 +1,205 @@
-# 🐳 Docker Setup Guide
+# 🐳 Easy Docker Guide
 
-The easiest way to use GitHub MCP Server is with Docker! No need to install Node.js or worry about dependencies.
+Use GitHub MCP Server with Docker - no installation needed! Everything just works.
 
-## 🚀 Quick Start (1 minute setup)
+## 🚀 Super Quick Start
 
-### Option 1: Use Ready-Made Image (Easiest)
+### 1. Get the Docker Image
 ```bash
-# Pull the image from Docker Hub
 docker pull 0xshariq/github-mcp-server:latest
+```
 
-# Run it immediately
+### 2. Run It
+```bash
 docker run -it --rm 0xshariq/github-mcp-server:latest
-
-# You're ready to go! Try these commands:
-node mcp-cli.js list
 ```
 
-### Option 2: Run with Your Projects
+### 3. Try It Out
+Inside the container, try these commands:
 ```bash
-# Run with access to your local git repositories
-docker run -it --rm \
-  -v $(pwd):/app/workspace \
-  0xshariq/github-mcp-server:latest
-
-# Now you can work with git repos in your current directory
+gstatus
+glist
 ```
 
-## 🎯 What You Get
+**That's it!** You're using GitHub MCP Server.
 
-### ✅ Pre-installed & Ready
-- ✅ Node.js 20 Alpine Linux
-- ✅ Git & SSH tools
-- ✅ All 20+ Git aliases (`gstatus`, `gadd`, `gcommit`, etc.)
+---
+
+## 📁 Working with Your Projects
+
+To use it with your actual Git projects:
+
+```bash
+# Go to your project folder first
+cd /path/to/your/project
+
+# Run Docker with access to your files
+docker run -it --rm -v $(pwd):/app/workspace -w /app/workspace 0xshariq/github-mcp-server:latest
+
+# Now you can use all the git commands on your project
+gstatus
+gadd
+gcommit "your message"
+gpush
+```
+
+---
+
+## 🎯 What's Included
+
+The Docker image comes with everything ready:
+- ✅ Node.js and Git installed
+- ✅ All git commands working (`gstatus`, `gadd`, `gcommit`, etc.)
 - ✅ MCP server ready to use
-- ✅ Security hardened (non-root user)
+- ✅ Safe and secure (runs as non-root user)
 
-### 🔧 Available Commands Inside Container
+---
+
+## � Common Use Cases
+
+### Quick Git Operations
 ```bash
-# MCP commands
-node mcp-cli.js list              # See all available tools
-node mcp-cli.js git-status        # Check git status
-node mcp-cli.js git-add-all       # Add all files
+# Check what changed
+docker run -it --rm -v $(pwd):/app/workspace -w /app/workspace 0xshariq/github-mcp-server:latest gstatus
 
-# Direct aliases (faster)
-gstatus                          # Git status
-gadd                             # Add all files  
-gcommit "Your message"           # Commit with message
-gpush                            # Push to remote
-gflow "Complete workflow"        # Add + commit + push
+# Add and commit files
+docker run -it --rm -v $(pwd):/app/workspace -w /app/workspace 0xshariq/github-mcp-server:latest gflow "Updated documentation"
+```
+
+### Interactive Session
+```bash
+# Start an interactive session
+docker run -it --rm -v $(pwd):/app/workspace -w /app/workspace 0xshariq/github-mcp-server:latest bash
+
+# Now you can run multiple commands
+gstatus
+gadd
+gcommit "my changes"
+gpush
+exit
+```
+
+### VS Code Integration
+Add this to your VS Code settings:
+```json
+{
+  "mcpServers": {
+    "github-mcp-server": {
+      "command": "docker",
+      "args": [
+        "run", "--rm", 
+        "-v", "${workspaceFolder}:/app/workspace", 
+        "-w", "/app/workspace", 
+        "0xshariq/github-mcp-server:latest", 
+        "node", "dist/index.js"
+      ],
+      "env": {},
+      "disabled": false
+    }
+  }
+}
+```
+
+---
+
+## 🛠️ Build Your Own (Optional)
+
+If you want to build the image yourself:
+
+### 1. Get the Code
+```bash
+git clone https://github.com/0xshariq/github-mcp-server.git
+cd github-mcp-server
+```
+
+### 2. Build the Image
+```bash
+docker build -t my-github-mcp-server .
+```
+
+### 3. Run Your Build
+```bash
+docker run -it --rm my-github-mcp-server
+```
+
+---
+
+## 🔧 Advanced Usage
+
+### Create an Alias (Makes Life Easier)
+Add this to your shell profile (`.bashrc`, `.zshrc`, etc.):
+
+```bash
+# For bash/zsh
+alias gmcp='docker run -it --rm -v $(pwd):/app/workspace -w /app/workspace 0xshariq/github-mcp-server:latest'
+
+# Now you can just use:
+gmcp gstatus
+gmcp gflow "my commit message"
+```
+
+### For Windows PowerShell
+```powershell
+# Add to your PowerShell profile
+function gmcp { 
+    docker run -it --rm -v "${PWD}:/app/workspace" -w /app/workspace 0xshariq/github-mcp-server:latest $args 
+}
+
+# Usage:
+gmcp gstatus
+gmcp gflow "my commit message"
+```
+
+---
+
+## ❓ Troubleshooting
+
+### Docker not found
+**Problem:** `docker` command doesn't work.
+**Solution:** Install Docker from [docker.com](https://docker.com/)
+
+### Permission denied
+**Problem:** Permission errors on Linux/macOS.
+**Solution:** Add your user to docker group:
+```bash
+sudo usermod -aG docker $USER
+# Then logout and login again
+```
+
+### Files not accessible
+**Problem:** Can't see your project files inside container.
+**Solution:** Make sure you're in your project directory when running the command:
+```bash
+cd /path/to/your/project
+docker run -it --rm -v $(pwd):/app/workspace -w /app/workspace 0xshariq/github-mcp-server:latest
+```
+
+---
+
+## 🎯 Quick Reference
+
+### One-time commands
+```bash
+# Check status
+docker run -it --rm -v $(pwd):/app/workspace -w /app/workspace 0xshariq/github-mcp-server:latest gstatus
+
+# Quick commit and push
+docker run -it --rm -v $(pwd):/app/workspace -w /app/workspace 0xshariq/github-mcp-server:latest gflow "your message"
+```
+
+### Interactive session
+```bash
+# Start interactive mode
+docker run -it --rm -v $(pwd):/app/workspace -w /app/workspace 0xshariq/github-mcp-server:latest bash
+
+# Then use commands normally
+gstatus
+gadd
+gcommit "message"
+gpush
+```
+
+That's all you need to know! Docker makes using GitHub MCP Server super easy.
 ```
 
 ## 📁 Working with Your Files

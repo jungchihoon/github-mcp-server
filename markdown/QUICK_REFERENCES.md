@@ -1,53 +1,259 @@
-# GitHub MCP Server - Quick References
+# Quick Reference Guide
 
-The **fastest** way to Git operations through 20 MCP tools with clean aliases.
+Simple cheat sheet for GitHub MCP Server commands. Copy and paste these!
 
-## 🎯 About
+## 🚀 Most Used Commands
 
-**Quick reference guide** for GitHub MCP Server - covers all aliases, npm commands, and common workflows.
-
-## ⚡ GMS (Ultra-Short Command)
-
-**One command to rule them all:**
+### Check Status
 ```bash
-gms [git-operation] [args...]
+gstatus                     # See what changed
 ```
 
-### **Examples:**
+### Add & Commit
 ```bash
-gms git-status
-gms git-add-all
-gms git-commit "Fix bug"
-gms git-push
+gadd                        # Add all files
+gcommit "your message"      # Commit with message
 ```
 
-## 🚀 All Aliases (Copy & Paste Ready)
-
-### **📁 File Operations**
+### Push & Pull
 ```bash
-gstatus                     # Show repository status
-gadd                        # Add all files to staging
-gadd file1.js file2.ts      # Add specific files only
+gpush                       # Send to remote
+gpull                       # Get from remote
 ```
 
-### **💾 Commit & Push**
+### Quick Workflow (All in One)
 ```bash
-gcommit "message"           # Commit with message
-gpush                       # Push to remote
-gpull                       # Pull from remote
+gflow "your message"        # Add + commit + push together
 ```
 
-### **📊 Information**
+---
+
+## 📝 Basic Commands
+
+### File Operations
 ```bash
-glog                        # Show last 10 commits
-glog 5                      # Show last 5 commits  
-gdiff                       # Show working directory changes
-gdiff main                  # Show diff compared to main
-glist                       # 🔥 TOOL EXPLORER - Comprehensive tool discovery
+gstatus                     # Check what's changed
+gadd                        # Add all files
+gadd file.js               # Add specific file
 ```
 
-### **🌿 Branch Management**
+### Commits
 ```bash
+gcommit "fix bug"          # Commit with message
+gflow "add feature"        # Add + commit + push all at once
+```
+
+### Push & Pull
+```bash
+gpush                      # Send your changes
+gpull                      # Get latest changes
+```
+
+### History
+```bash
+glog                       # See recent commits
+gdiff                      # See what changed
+```
+
+---
+
+## 🌿 Branch Commands
+
+### List & Switch
+```bash
+gbranch                    # List all branches
+gcheckout main            # Switch to main branch
+gcheckout feature-login   # Switch to feature branch
+```
+
+### Create New Branch
+```bash
+gbranch new-feature       # Create new branch
+gcheckout -b new-feature  # Create and switch to new branch
+```
+
+---
+
+## 🔧 Advanced Commands
+
+### Development Workflows
+```bash
+gdev                       # Start development session
+gsave "work in progress"   # Quick save
+gfix "small bug fix"       # Quick fix
+```
+
+### Stash (Temporary Save)
+```bash
+gstash                     # Save work temporarily
+gstash "trying new idea"   # Save with message
+gpop                       # Get back saved work
+```
+
+### Reset (Undo Things)
+```bash
+greset                     # Undo staging (safe)
+greset --hard              # ⚠️ DANGER: Delete all changes
+```
+
+---
+
+## 📡 Remote Management
+
+### View & Manage Remotes
+```bash
+gremote                    # List all remotes
+gremote add origin <url>   # Add new remote
+gremote set-url <url>      # Change remote URL
+```
+
+### Clone & Initialize
+```bash
+gclone <url>              # Copy remote repository
+ginit                     # Start new repository
+```
+
+---
+
+## 🔥 Workflow Examples
+
+### Daily Development
+```bash
+# Start your day
+gstatus                   # Check what's changed
+gpull                     # Get latest updates
+
+# Work on stuff
+# ... make changes ...
+gadd                      # Stage your changes
+gcommit "add new feature" # Save your work
+gpush                     # Share with team
+```
+
+### Quick Changes
+```bash
+# Make small changes and push quickly
+gflow "fix typo in header"
+```
+
+### Feature Development
+```bash
+# Create feature branch
+gbranch feature-login
+gcheckout feature-login
+
+# Work on feature
+# ... make changes ...
+gflow "implement login form"
+
+# Back to main
+gcheckout main
+```
+
+### Emergency Fixes
+```bash
+# Save current work
+gstash "work in progress"
+
+# Switch to main and fix
+gcheckout main
+gpull
+# ... fix the bug ...
+gflow "emergency bug fix"
+
+# Back to your work
+gcheckout your-branch
+gpop                      # Restore your work
+```
+
+---
+
+## 📱 VS Code Setup
+
+Add this to your VS Code settings:
+
+```json
+{
+  "mcpServers": {
+    "github-mcp-server": {
+      "command": "node",
+      "args": ["/path/to/github-mcp-server/dist/index.js"],
+      "env": {},
+      "disabled": false
+    }
+  }
+}
+```
+
+Replace `/path/to/github-mcp-server` with where you installed it.
+
+---
+
+## 🐳 Docker Commands
+
+### One-Time Use
+```bash
+# Try it quickly
+docker run -it --rm 0xshariq/github-mcp-server:latest
+
+# Use with your project
+docker run -it --rm -v $(pwd):/app/workspace -w /app/workspace 0xshariq/github-mcp-server:latest
+```
+
+### Make It Easy
+Create an alias:
+```bash
+# Add to ~/.bashrc or ~/.zshrc
+alias gmcp='docker run -it --rm -v $(pwd):/app/workspace -w /app/workspace 0xshariq/github-mcp-server:latest'
+
+# Then just use:
+gmcp gstatus
+gmcp gflow "my message"
+```
+
+---
+
+## 🔍 Get Help
+
+### Find Commands
+```bash
+glist                     # See all available commands
+glist --help             # More detailed help
+```
+
+### Command Help
+```bash
+gstatus --help           # Help for specific command
+gcommit --help           # Help for commit command
+```
+
+---
+
+## ❓ Common Problems
+
+### "Command not found"
+**Problem:** `gstatus` doesn't work.
+**Fix:** Make sure you installed with `npm link` or use Docker.
+
+### "Not a git repository"
+**Problem:** Git commands fail.
+**Fix:** Make sure you're in a Git repository folder, or run `ginit` first.
+
+### "Permission denied"
+**Problem:** Can't push to remote.
+**Fix:** Check your Git credentials and repository permissions.
+
+---
+
+## 🎯 Quick Tips
+
+1. **Always check status first:** `gstatus`
+2. **Use gflow for quick commits:** `gflow "message"`
+3. **Save work before switching branches:** `gstash`
+4. **Get help anytime:** `glist`
+5. **Pull before starting work:** `gpull`
+
+That's all you need! These commands cover 99% of daily Git work.
 gbranch                     # List all branches
 gbranch feature-auth        # Create new branch
 gcheckout main              # Switch to main
