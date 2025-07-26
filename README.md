@@ -1,5 +1,7 @@
 # GitHub MCP Server
 
+🔗 **[View on MCP Registry](https://mcp.so/server/github-mcp-server/Sharique%20Chaudhary)**
+
 A **Model Context Protocol (MCP) server** that provides **29 Git operations + 11 workflow combinations** for AI assistants and developers. This server exposes comprehensive Git repository management through a standardized interface, enabling AI models and developers to safely manage complex version control workflows.
 
 ## 🎯 About
@@ -132,89 +134,6 @@ github-mcp-server/
 - **⏱️ Timeout Protection**: 30-second timeout for operations
 - **🚫 Input Sanitization**: Prevents command injection
 - **📝 Detailed Error Messages**: Clear, actionable error descriptions
-
-## License
-ISC License
-
-## Author
-Created for use with AI assistants that support the Model Context Protocol.
-```
-
-### 📖 **Documentation Structure**
-
-- **[bin/basic/README.md](bin/basic/README.md)** - Complete guide to 17 essential Git operations
-- **[bin/advanced/README.md](bin/advanced/README.md)** - Comprehensive advanced workflows documentation  
-- **[QUICK_REFERENCES.md](QUICK_REFERENCES.md)** - Copy-paste commands for quick reference
-- **[DOCKER.md](DOCKER.md)** - Docker setup, deployment, and containerization
-- **[DEPLOY.md](DEPLOY.md)** - Production deployment and hosting strategies
-
-### 🔧 **Technical Architecture**
-
-#### **📡 MCP Server Core (src/index.ts)**
-- **29 Tool Registrations** with complete JSON schemas
-- **Enhanced Metadata** with operation tracking and performance monitoring
-- **Input Validation** using Zod schemas for type safety
-- **Error Handling Pipeline** with timeout protection and meaningful messages
-- **Cross-platform Compatibility** with environment normalization
-
-#### **⚙️ Git Operations Engine (src/github.ts)**
-- **Comprehensive Implementation** of all 29 Git operations
-- **Security Features** - Command injection prevention and input sanitization
-- **Enhanced Error Handling** with context-aware messaging for common scenarios
-- **Performance Monitoring** - Operation duration tracking and logging
-- **Safety Checks** - Repository validation and file existence verification
-
-#### **🖥️ Enhanced CLI System**
-- **Smart Organization** - Tools categorized by basic vs advanced operations
-- **Directory-Aware Help** - References to specific README files for detailed guidance
-- **Progressive Learning** - Clear path from basic to advanced operations
-- **Tool Discovery** - Enhanced `glist` command with category filtering
-
-## 🛡️ Error Handling & Safety
-
-- **🔍 Repository Validation**: Ensures directory is a valid Git repository
-- **📁 File Existence Checks**: Validates files exist before Git operations
-- **⏱️ Timeout Protection**: 30-second timeout for operations
-- **🚫 Input Sanitization**: Prevents command injection
-- **📝 Detailed Error Messages**: Clear, actionable error descriptions
-
-## 🎯 Best Practices
-
-### **For Daily Development:**
-- **Start your day**: `gdev` to check status and sync
-- **Frequent saves**: `gsave` for quick checkpoints during development  
-- **Feature branches**: `gdev feature-name` for new features
-- **Quick fixes**: `gfix "description"` for small bug fixes
-- **End of day**: `gsave --push` or `gflow "message"` to share work
-
-### **For Team Collaboration:**
-- **Stay synced**: `gdev --sync` to keep your branch updated with main
-- **Clean history**: Use `gfix --amend` for small fixes to recent commits
-- **Proper releases**: `grelease --patch` for version management
-- **Emergency fixes**: `gfix --hotfix "message"` for urgent issues
-
-### **For Code Quality:**
-- Check status before operations: `gstatus`
-- Use descriptive commit messages with `gcommit` and `gflow`
-- **Use `glist` for discovery** - Explore all available tools with examples
-- **Use `grelease --prepare`** to validate before releases
-
-### **For Learning & Productivity:**
-- **Use `glist --category "Workflow Shortcuts"`** to learn powerful combinations
-- **Practice with `gsave --wip`** for experimental changes
-- **Use `gfresh` workflows** to maintain clean working directory
-- **Use `gdev --continue`** to restore and continue previous work
-
-## 📚 Additional Resources
-
-### **📖 Documentation**
-- **[QUICK_REFERENCES.md](markdown/QUICK_REFERENCES.md)** - Copy-paste commands and workflows
-- **[DOCKER.md](DOCKER.md)** - Complete Docker setup and usage guide
-- **[DEPLOY.md](DEPLOY.md)** - Production deployment and hosting guide
-
-### **🔧 Source Code**
-- **[src/index.ts](src/index.ts)** - MCP server implementation
-- **[src/github.ts](src/github.ts)** - Git operations implementation
 
 ## License
 ISC License

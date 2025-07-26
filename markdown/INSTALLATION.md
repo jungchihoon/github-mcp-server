@@ -515,6 +515,7 @@ Add to your global VS Code settings:
 - **macOS**: `~/Library/Application Support/Code/User/settings.json`
 - **Linux**: `~/.config/Code/User/settings.json`
 
+#### Option 1: Using gms command (Recommended)
 ```json
 {
   "mcpServers": {
@@ -527,6 +528,22 @@ Add to your global VS Code settings:
   }
 }
 ```
+
+#### Option 2: Using node directly
+```json
+{
+  "mcpServers": {
+    "github-mcp-server": {
+      "command": "node",
+      "args": ["/absolute/path/to/github-mcp-server/dist/index.js"],
+      "env": {},
+      "disabled": false
+    }
+  }
+}
+```
+
+**Note:** Replace `/absolute/path/to/github-mcp-server` with your actual installation path.
 
 ## 🔧 Local vs Global Usage
 
