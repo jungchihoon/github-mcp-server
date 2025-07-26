@@ -6,21 +6,12 @@ const path = require('path');
 /**
  * GitHub MCP Server CLI Wrapper
  * 
- * This CLI provides easy access to all Git operations through the MCP server    console.log('  🛠️  Installation & Setup:');
-    console.log('    npm install -g .                        # Install globally to enable all aliases');
-    console.log('    npm link                                # Link for development (from project dir)');
-    console.log('    node mcp-cli.js list                    # Show this help without global install');
-    console.log('');
-    console.log('  📖 Learn More:');
-    console.log('    📚 Basic operations:    bin/basic/README.md');
-    console.log('    🚀 Advanced workflows:  bin/advanced/README.md');
-    console.log('    📋 Quick reference:     QUICK_REFERENCES.md');
-    console.log('    🖥️  CLI help:            gms list  (or github-mcp-server list)');
-    console.log('');perations are organized into basic and advanced categories matching the
+ * This CLI provides easy access to all Git operations through the MCP server.
+ * Operations are organized into basic and advanced categories matching the
  * bin/ directory structure.
  * 
  * Directory Structure:
- * - bin/basic/     - 17 essential Git operations for daily development
+ * - bin/basic/     - 15 essential Git operations for daily development
  * - bin/advanced/  - 13 sophisticated workflows and automation tools
  * 
  * @version 1.8.0
@@ -29,6 +20,7 @@ const path = require('path');
 // Available tools in the MCP server (29 total operations)
 const AVAILABLE_TOOLS = [
   // === BASIC GIT OPERATIONS (bin/basic/) ===
+  { name: 'git-init', category: 'Basic: File Operations', binPath: 'basic/ginit.js', description: 'Initialize a new Git repository' },
   { name: 'git-add-all', category: 'Basic: File Operations', binPath: 'basic/gadd.js', description: 'Add all files to staging' },
   { name: 'git-add', category: 'Basic: File Operations', binPath: 'basic/gadd.js', description: 'Add specific files to staging', usage: 'git-add <files...>' },
   { name: 'git-status', category: 'Basic: Information', binPath: 'basic/gstatus.js', description: 'Show repository status' },
@@ -64,7 +56,8 @@ const AVAILABLE_TOOLS = [
 
 // CLI workflow combinations organized by directory structure
 const WORKFLOW_COMBINATIONS = [
-  // === BASIC WORKFLOW ALIASES (bin/basic/) - 17 aliases ===
+  // === BASIC WORKFLOW ALIASES (bin/basic/) - 15 aliases ===
+  
   { alias: 'gstatus', command: 'git-status', binPath: 'basic/gstatus.js', description: 'Check repository status' },
   { alias: 'gadd', command: 'git-add-all', binPath: 'basic/gadd.js', description: 'Add all modified files' },
   { alias: 'gcommit', command: 'git-commit', binPath: 'basic/gcommit.js', description: 'Commit staged changes', usage: 'gcommit "message"' },
@@ -78,10 +71,8 @@ const WORKFLOW_COMBINATIONS = [
   { alias: 'gpop', command: 'git-stash-pop', binPath: 'basic/gpop.js', description: 'Apply most recent stash' },
   { alias: 'greset', command: 'git-reset', binPath: 'basic/greset.js', description: 'Reset repository state', usage: 'greset [mode] [target]' },
   { alias: 'gclone', command: 'git-clone', binPath: 'basic/gclone.js', description: 'Clone repository', usage: 'gclone <url> [dir]' },
-  { alias: 'gremote', command: 'git-remote-list', binPath: 'basic/gremote.js', description: 'List remote repositories' },
-  { alias: 'gremote-add', command: 'git-remote-add', binPath: 'basic/gremote-add.js', description: 'Add remote repository', usage: 'gremote-add <name> <url>' },
-  { alias: 'gremote-remove', command: 'git-remote-remove', binPath: 'basic/gremote-remove.js', description: 'Remove remote repository', usage: 'gremote-remove <name>' },
-  { alias: 'gremote-set-url', command: 'git-remote-set-url', binPath: 'basic/gremote-set-url.js', description: 'Change remote URL', usage: 'gremote-set-url <name> <url>' },
+  { alias: 'ginit', command: 'git-init', binPath: 'basic/ginit.js', description: 'Initialize Git repository' },
+  { alias: 'gremote', command: 'git-remote-list', binPath: 'basic/gremote.js', description: 'Manage remote repositories', usage: 'gremote [add|remove|set-url] [args]' },
   
   // === ADVANCED WORKFLOW ALIASES (bin/advanced/) - 14 aliases ===
   { alias: 'gflow', command: 'git-flow', binPath: 'advanced/gflow.js', description: 'Complete workflow: add→commit→push', usage: 'gflow "message"' },

@@ -21,7 +21,7 @@
  * • Stash Operations: stash, pop for temporary change management
  * 
  * @module github
- * @version 1.8.0
+ * @version 1.8.3
  */
 
 // Node.js built-in modules for executing shell commands and file operations
@@ -738,6 +738,25 @@ export async function gitClone(url: string, directory?: string, targetDir?: stri
     return createResponse('git-clone', `✅ Successfully cloned repository from ${url}.\n${result.stdout || result.stderr || 'Clone completed.'}`, false, workingDir, startTime);
   } catch (error: any) {
     return createResponse('git-clone', `Error: ${error.message}`, true, workingDir, startTime);
+  }
+}
+
+// Initializes a new Git repository
+export async function gitInit(directory?: string): Promise<GitOperationResult> {
+  const startTime = Date.now();
+  const workingDir = directory || process.cwd();
+  
+  try {
+    // Check if already a git repository
+    if (await isGitRepository(workingDir)) {
+      return createResponse('git-init', '✅ Directory is already a Git repository.', false, workingDir, startTime);
+    }
+    
+    const result = await executeGitCommand('git init', workingDir);
+    
+    return createResponse('git-init', `🎉 Successfully initialized empty Git repository.\n${result.stdout || result.stderr || 'Repository initialized.'}`, false, workingDir, startTime);
+  } catch (error: any) {
+    return createResponse('git-init', `Error: ${error.message}`, true, workingDir, startTime);
   }
 }
 

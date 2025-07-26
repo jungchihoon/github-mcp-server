@@ -24,7 +24,7 @@
  * • Developer Tools: Smart workflows, backup systems, cleanup utilities
  * 
  * @author GitHub MCP Server Team
- * @version 1.8.0
+ * @version 1.8.3
  * @license ISC
  */
 
@@ -52,6 +52,7 @@ import {
   gitStashPop,
   gitReset,
   gitClone,
+  gitInit,
   gitRemoteList,
   gitRemoteAdd,
   gitRemoteRemove,
@@ -366,6 +367,19 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             }
           },
           required: ["url"]
+        }
+      },
+      {
+        name: "git-init",
+        description: "Initializes a new Git repository",
+        inputSchema: {
+          type: "object",
+          properties: {
+            directory: {
+              type: "string",
+              description: "The directory to initialize as a Git repository (defaults to current working directory)"
+            }
+          }
         }
       },
       {
@@ -805,6 +819,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             {
               type: "text",
               text: JSON.stringify(await gitClone(args.url as string, args?.directory as string, args?.targetDir as string))
+            }
+          ]
+        };
+
+      case "git-init":
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify(await gitInit(args?.directory as string))
             }
           ]
         };

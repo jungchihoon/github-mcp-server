@@ -2,7 +2,7 @@
 
 This directory contains essential daily Git commands that every developer uses regularly. These are the fundamental building blocks of version control workflows.
 
-## 📁 Files in this directory (17 operations):
+## 📁 Files in this directory (15 operations):
 
 ### 📝 Core File Operations
 - **`gadd.js`** - Add files to staging area
@@ -75,6 +75,10 @@ This directory contains essential daily Git commands that every developer uses r
   ```
 
 ### 📂 Repository Operations
+- **`ginit.js`** - Initialize a new Git repository
+  ```bash
+  ginit                   # Initialize current directory as Git repo
+  ```
 - **`gclone.js`** - Clone repositories from remote URLs
   ```bash
   gclone https://github.com/user/repo.git
@@ -82,25 +86,27 @@ This directory contains essential daily Git commands that every developer uses r
   ```
 
 ### 📡 Remote Management
-- **`gremote.js`** - List configured remotes
+- **`gremote.js`** - Comprehensive remote repository management
   ```bash
-  gremote                 # Show all remotes with URLs
-  ```
-- **`gremote-add.js`** - Add new remote repository
-  ```bash
-  gremote-add origin https://github.com/user/repo.git
-  gremote-add backup git@backup-server.com:user/repo.git
-  ```
-- **`gremote-remove.js`** - Remove remote repository
-  ```bash
-  gremote-remove backup   # Remove backup remote
-  ```
-- **`gremote-set-url.js`** - Update remote URL
-  ```bash
-  gremote-set-url origin git@github.com:user/repo.git
+  gremote                           # List all remotes
+  gremote add upstream <url>        # Add new remote
+  gremote remove old-remote         # Remove remote
+  gremote set-url <url>             # Set URL for origin (default)
+  gremote set-url <url> upstream    # Set URL for specific remote
   ```
 
 ## 🎯 Common Usage Patterns
+
+### Starting a New Project
+```bash
+mkdir my-project
+cd my-project
+ginit                   # Initialize Git repository
+gadd                    # Stage initial files
+gcommit "initial commit"
+gremote add origin <url>
+gpush
+```
 
 ### Daily Development Workflow
 ```bash
@@ -117,6 +123,13 @@ gcheckout feature-login # Switch to feature branch
 # ... make changes ...
 gadd && gcommit "add login form"
 gpush
+```
+
+### Remote Repository Management
+```bash
+gremote                               # List current remotes
+gremote add upstream <upstream-url>   # Add upstream for forks
+gremote set-url <new-url>             # Update origin URL
 ```
 
 ### Checking History and Changes
@@ -137,10 +150,10 @@ gpop                         # Restore stashed work
 
 ## 📚 Learning Path
 
-1. **Start with**: `gstatus`, `gadd`, `gcommit`, `gpush`, `gpull`
+1. **Start with**: `ginit`, `gstatus`, `gadd`, `gcommit`, `gpush`, `gpull`
 2. **Learn branching**: `gbranch`, `gcheckout`
 3. **Explore history**: `glog`, `gdiff`
-4. **Master remotes**: `gremote*` commands
+4. **Master remotes**: `gremote` command with subcommands
 5. **Advanced**: `gstash`, `greset`, `gclone`
 
 These basic operations form the foundation for all Git workflows. Master these before moving to advanced operations.

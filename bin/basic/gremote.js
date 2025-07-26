@@ -1,90 +1,151 @@
 #!/usr/bin/env node
 
 /**
- * gremote - Enhanced Git Remote Alias
- * 
+ * gremote - Enhanced Git Remote Management
+ *
+ * This script provides a unified interface for managing Git remotes,
+ * including listing, adding, removing, and updating remote URLs.
+ *
  * Usage:
- *   gremote               - List remote repositories
- *   gremote -h, --help    - Show help
- *   gremote --verbose     - Show detailed remote info
- * 
- * Features:
- * - Repository context validation
- * - Remote repository listing
- * - Detailed information display
+ *   gremote                          - List remote repositories
+ *   gremote add <name> <url>         - Add a new remote
+ *   gremote remove <name>            - Remove a remote
+ *   gremote set-url <url> [name]     - Set URL for a remote (default: origin)
+ *   gremote -h, --help               - Show this help message
+ *
+ * Examples:
+ *   gremote
+ *   gremote add upstream https://github.com/owner/repo.git
+ *   gremote remove old-remote
+ *   gremote set-url https://new.url/repo.git
+ *   gremote set-url https://new.url/repo.git upstream
  */
 
 const { spawn } = require('child_process');
-const path = require('path');
-const { validateRepository, showHelp, showRepoContext } = require('../advanced/common');
+const { showHelp, validateRepository } = require('../advanced/common');
 
-// Get command line arguments
 const args = process.argv.slice(2);
 
-// Help functionality
-if (args.includes('-h') || args.includes('--help')) {
-  showHelp(
-    'gremote',
-    'Enhanced Git Remote Management',
-    `  gremote               List remote repositories
-  gremote --verbose     Show detailed remote info
-  gremote -h, --help    Show this help`,
-    [
-      'gremote               # List remotes',
-      'gremote --verbose     # Show detailed info'
-    ]
-  );
-  process.exit(0);
+function executeGitCommand(gitArgs) {
+  return new Promise((resolve, reject) => {
+    const gitProcess = spawn('git', gitArgs, { stdio: 'inherit' });
+    gitProcess.on('close', (code) => {
+      if (code === 0) {
+        resolve();
+      } else {
+        reject(new Error(`Git command failed with code ${code}`));
+      }
+    });
+    gitProcess.on('error', (err) => {
+      reject(err);
+    });
+  });
 }
 
-// Validate repository
-if (!validateRepository('remote')) {
-  process.exit(1);
-}
-
-// Show detailed info if requested
-if (args.includes('--verbose')) {
-  showRepoContext();
-  console.log('');
-}
-
-console.log('🔗 Remote repositories:');
-
-// Execute git remote -v directly in current directory
-const gitProcess = spawn('git', ['remote', '-v'], {
-  stdio: ['pipe', 'pipe', 'pipe'],
-  cwd: process.cwd()
-});
-
-let output = '';
-let errorOutput = '';
-
-gitProcess.stdout.on('data', (data) => {
-  output += data.toString();
-});
-
-gitProcess.stderr.on('data', (data) => {
-  errorOutput += data.toString();
-});
-
-gitProcess.on('close', (code) => {
-  if (code === 0) {
-    if (output.trim()) {
-      console.log(output.trim());
-    } else {
-      console.log('📭 No remote repositories configured.');
-    }
-    console.log('\n💡 Related commands:');
-    console.log('   gremote-add "name" "url"  - Add remote');
-    console.log('   gpush                     - Push to remote');
-    console.log('   gpull                     - Pull from remote');
-  } else {
-    console.error('❌ Error:', errorOutput.trim() || 'Failed to list remotes');
+async function main() {
+  if (args.includes('-h') || args.includes('--help')) {
+    showHelp(
+      'gremote',
+      'Enhanced Git Remote Management',
+      `  gremote                          - List remotes
+  gremote add <name> <url>         - Add a new remote
+  gremote remove <name>            - Remove a remote
+  gremote set-url <url> [name]     - Set URL for a remote (default: origin)
+  gremote -h, --help               - Show this help`,
+      [
+        'gremote',
+        'gremote add upstream https://github.com/owner/repo.git',
+        'gremote remove old-remote',
+        'gremote set-url https://new.url/repo.git',
+      ]
+    );
+    return;
   }
-  process.exit(code);
-});
 
-gitProcess.on('error', (err) => {
-  console.error('❌ Error:', err.message);
-  process.exit(1);
-});
+  if (!validateRepository('gremote')) {
+    return;
+  }
+
+  const [subcommand, ...subcommandArgs] = args;
+
+  try {
+    // Trim all arguments for safety
+    const trimmedArgs = subcommandArgs.map(a => a.trim());
+    switch (subcommand) {
+      case 'add': {
+        if (trimmedArgs.length !== 2) {
+          console.error('❌ Error: `gremote add` requires <name> and <url>.');
+          process.exit(1);
+        }
+        console.log(`➕ Adding remote '${trimmedArgs[0]}' with URL '${trimmedArgs[1]}'`);
+        try {
+          await executeGitCommand(['remote', 'add', trimmedArgs[0], trimmedArgs[1]]);
+          console.log('✅ Remote added successfully.');
+          await executeGitCommand(['remote', '-v']);
+          process.exit(0);
+        } catch (err) {
+          console.error(`❌ Git error: ${err.message}`);
+          process.exit(1);
+        }
+        break;
+      }
+      case 'remove': {
+        if (trimmedArgs.length !== 1) {
+          console.error('❌ Error: `gremote remove` requires <name>.');
+          process.exit(1);
+        }
+        console.log(`➖ Removing remote '${trimmedArgs[0]}'`);
+        try {
+          await executeGitCommand(['remote', 'remove', trimmedArgs[0]]);
+          console.log('✅ Remote removed successfully.');
+          await executeGitCommand(['remote', '-v']);
+          process.exit(0);
+        } catch (err) {
+          console.error(`❌ Git error: ${err.message}`);
+          process.exit(1);
+        }
+        break;
+      }
+      case 'set-url': {
+        if (trimmedArgs.length < 1 || trimmedArgs.length > 2) {
+          console.error('❌ Error: `gremote set-url` requires <url> and optionally [name].');
+          process.exit(1);
+        }
+        const [url, name = 'origin'] = trimmedArgs;
+        console.log(`✏️ Setting URL for remote '${name}' to '${url}'`);
+        try {
+          await executeGitCommand(['remote', 'set-url', name, url]);
+          console.log('✅ Remote URL updated successfully.');
+          await executeGitCommand(['remote', '-v']);
+          process.exit(0);
+        } catch (err) {
+          console.error(`❌ Git error: ${err.message}`);
+          process.exit(1);
+        }
+        break;
+      }
+      case 'list':
+      case undefined: // No subcommand, list remotes
+        console.log('🔗 Listing remote repositories:');
+        try {
+          await executeGitCommand(['remote', '-v']);
+          process.exit(0);
+        } catch (err) {
+          console.error(`❌ Git error: ${err.message}`);
+          process.exit(1);
+        }
+        break;
+      default:
+        console.error(`❌ Error: Unknown subcommand '${subcommand}'.`);
+        console.log('\nUse `gremote --help` for usage information.');
+        process.exit(1);
+    }
+  } catch (error) {
+    console.error(`❌ Operation failed: ${error.message}`);
+    process.exit(1);
+  }
+}
+
+main();
+
+
