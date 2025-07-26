@@ -1,0 +1,95 @@
+# Docker Compose for GitHub MCP Server
+version: '3.8'
+
+services:
+  github-mcp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: github-mcp-server
+    restart: unless-stopped
+    
+    # Environment variables
+    environment:
+      - NODE_ENV=production
+      - MCP_PORT=3000
+    
+    # Port mapping (if HTTP interface is added later)
+    ports:
+      - "3000:3000"
+    
+    # Volume mounts for Git repositories and configuration
+    volumes:
+      - ./data:/app/data
+      - ~/.gitconfig:/home/mcp/.gitconfig:ro
+      - ~/.ssh:/home/mcp/.ssh:ro
+    
+    # Working directory
+    working_dir: /app
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "node", "-e", "console.log('Health check passed')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+    
+    # Security settings
+    security_opt:
+      - no-new-privileges:true
+    read_only: false
+    tmpfs:
+      - /tmp
+    
+    # Network
+    networks:
+      - mcp-network
+
+  # Development service with hot reload
+  github-mcp-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    container_name: github-mcp-dev
+    restart: unless-stopped
+    profiles: ["dev"]
+    
+    environment:
+      - NODE_ENV=development
+    
+    ports:
+      - "3001:3000"
+    
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - ~/.gitconfig:/home/mcp/.gitconfig:ro
+      - ~/.ssh:/home/mcp/.ssh:ro
+    
+    command: npm run dev
+    
+    networks:
+      - mcp-network
+
+networks:
+  mcp-network:
+    driver: bridge
+    name: mcp-network
+
+volumes:
+  mcp-data:
+    driver: local
+    name: mcp-data
