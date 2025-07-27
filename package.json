@@ -54,7 +54,8 @@
     "mcp": "node mcp-cli.js",
     "install:global": "pnpm run build && npm install -g .",
     "uninstall:global": "npm uninstall -g github-mcp-server",
-    "dev:install": "pnpm run build && pnpm run install:global"
+    "dev:install": "pnpm run build && pnpm run install:global",
+    "start:mcp": "node dist/index.js"
   },
   "author": "Sharique Chaudhary",
   "license": "ISC", 

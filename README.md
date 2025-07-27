@@ -102,6 +102,7 @@ github-mcp-server/
 - **[bin/basic/README.md](bin/basic/README.md)** - Complete guide to 17 essential Git operations
 - **[bin/advanced/README.md](bin/advanced/README.md)** - Comprehensive advanced workflows documentation  
 - **[markdown/INSTALLATION.md](markdown/INSTALLATION.md)** - Step-by-step installation for all platforms
+- **[markdown/MCP_UNIVERSAL_CONFIG.md](markdown/MCP_UNIVERSAL_CONFIG.md)** - Universal MCP configuration for all LLM clients
 - **[markdown/QUICK_REFERENCES.md](markdown/QUICK_REFERENCES.md)** - Copy-paste commands for quick reference
 - **[markdown/DOCKER.md](markdown/DOCKER.md)** - Docker setup, deployment, and containerization
 - **[markdown/DEPLOY.md](markdown/DEPLOY.md)** - Production deployment and hosting strategies
