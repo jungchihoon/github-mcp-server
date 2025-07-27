@@ -1,5 +1,6 @@
 # GitHub MCP Server
-
+🔗 **[View on MCP Market](https://mcpmarket.com/server/github-git-assistant)**
+<br />
 🔗 **[View on MCP Registry](https://mcp.so/server/github-mcp-server/Sharique%20Chaudhary)**
 
 A **Model Context Protocol (MCP) server** that provides **29 Git operations + 11 workflow combinations** for AI assistants and developers. This server exposes comprehensive Git repository management through a standardized interface, enabling AI models and developers to safely manage complex version control workflows.
