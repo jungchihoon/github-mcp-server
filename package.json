@@ -42,6 +42,33 @@
     "gblame": "mcp-cli.js",
     "gbisect": "mcp-cli.js"
   },
+  "files": [
+    "dist/",
+    "bin/",
+    "mcp-cli.js",
+    "README.md",
+    "markdown/"
+  ],
+  "keywords": [
+    "git",
+    "mcp",
+    "model-context-protocol",
+    "cli",
+    "github",
+    "workflow",
+    "automation",
+    "ai-assistant",
+    "git-tools",
+    "developer-tools"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/github-mcp-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/github-mcp-server/issues"
+  },
+  "homepage": "https://github.com/yourusername/github-mcp-server#readme",
   "scripts": {
     "build": "tsc -p .",
     "start": "node dist/index.js",
@@ -55,7 +82,10 @@
     "install:global": "pnpm run build && npm install -g .",
     "uninstall:global": "npm uninstall -g github-mcp-server",
     "dev:install": "pnpm run build && pnpm run install:global",
-    "start:mcp": "node dist/index.js"
+    "start:mcp": "node dist/index.js",
+    "prepublishOnly": "pnpm run build",
+    "prepack": "pnpm run build",
+    "postpack": "pnpm run clean"
   },
   "author": "Sharique Chaudhary",
   "license": "ISC", 

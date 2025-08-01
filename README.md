@@ -42,7 +42,131 @@ Sophisticated workflows and automation in [`bin/advanced/`](bin/advanced/) - see
 
 ## 🛠️ Installation
 
+### 🚀 Quick Start with npx (Recommended)
+
+The fastest way to use GitHub MCP Server is with **npx** - no installation required!
+
+```bash
+# Basic Git operations
+npx github-mcp-server gstatus
+npx github-mcp-server gadd
+npx github-mcp-server gcommit "your commit message"
+npx github-mcp-server gpush
+
+# Advanced workflows
+npx github-mcp-server gflow "implement new feature"
+npx github-mcp-server gsync
+npx github-mcp-server gbackup
+
+# Or use the short alias
+npx gms gstatus
+npx gms gflow "quick fix"
+```
+
+### 📦 Global Installation
+
+For frequent use, install globally:
+
+```bash
+# Using npm
+npm install -g github-mcp-server
+
+# Using pnpm (recommended)
+pnpm add -g github-mcp-server
+
+# Then use directly
+gstatus
+gflow "your message"
+gsync
+```
+
+### 🔧 Local Development Installation
+
 **See [markdown/INSTALLATION.md](markdown/INSTALLATION.md)** for detailed installation guide for Windows, macOS, WSL, and all platforms.
+
+## 🚀 Quick Usage Guide
+
+### 📁 Basic Git Operations
+
+```bash
+# Check repository status
+npx github-mcp-server gstatus
+
+# Add all files and commit
+npx github-mcp-server gadd
+npx github-mcp-server gcommit "your commit message"
+
+# Push to remote
+npx github-mcp-server gpush
+
+# Pull from remote
+npx github-mcp-server gpull
+
+# Branch operations
+npx github-mcp-server gbranch feature-auth
+npx github-mcp-server gcheckout feature-auth
+
+# View history and differences
+npx github-mcp-server glog 5
+npx github-mcp-server gdiff main
+```
+
+### 🚀 Advanced Workflows
+
+```bash
+# Complete workflow (add → commit → push)
+npx github-mcp-server gflow "implement new feature"
+
+# Quick commit without push
+npx github-mcp-server gquick "fix typo"
+
+# Sync with remote (pull → push)
+npx github-mcp-server gsync
+
+# Development session management
+npx github-mcp-server gdev feature-auth
+
+# Backup and safety
+npx github-mcp-server gbackup --emergency
+
+# Repository cleanup
+npx github-mcp-server gclean --optimize
+```
+
+### 🔧 Specialized Git Operations
+
+```bash
+# Tag management
+npx github-mcp-server gtag create v1.0.0 "Release version"
+
+# Merge operations
+npx github-mcp-server gmerge feature-branch
+
+# Rebase operations
+npx github-mcp-server grebase main
+
+# Cherry-pick specific commit
+npx github-mcp-server gcherry abc1234
+
+# Line-by-line authorship
+npx github-mcp-server gblame src/app.js
+```
+
+### 📚 Help and Discovery
+
+```bash
+# List all available operations
+npx github-mcp-server list
+
+# Get help for specific operation
+npx github-mcp-server help
+
+# Show basic operations
+npx github-mcp-server glist basic
+
+# Show advanced workflows
+npx github-mcp-server glist advanced
+```
 
 ## 🏗️ Project Structure & Architecture
 
