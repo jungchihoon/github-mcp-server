@@ -63,12 +63,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/github-mcp-server.git"
+    "url": "https://github.com/jungchihoon/github-mcp-server.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/github-mcp-server/issues"
+    "url": "https://github.com/jungchihoon/github-mcp-server/issues"
   },
-  "homepage": "https://github.com/yourusername/github-mcp-server#readme",
+  "homepage": "https://github.com/jungchihoon/github-mcp-server#readme",
   "scripts": {
     "build": "tsc -p .",
     "start": "node dist/index.js",
