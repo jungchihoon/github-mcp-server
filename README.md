@@ -84,6 +84,92 @@ gsync
 
 **See [markdown/INSTALLATION.md](markdown/INSTALLATION.md)** for detailed installation guide for Windows, macOS, WSL, and all platforms.
 
+## 🤖 MCP Server Integration (Cursor, Claude, etc.)
+
+### 🎯 Cursor IDE에서 MCP 서버 사용하기
+
+Cursor에서 GitHub MCP Server를 사용하려면 다음 설정을 추가하세요:
+
+**File**: `~/.cursor/mcp_config.json`
+
+```json
+{
+  "mcpServers": {
+    "github-mcp-server": {
+      "command": "npx",
+      "args": ["github-mcp-server", "mcp"],
+      "env": {},
+      "capabilities": ["tools", "resources", "prompts"]
+    }
+  }
+}
+```
+
+### 🔧 다른 MCP 클라이언트 설정
+
+#### Claude Desktop
+**File**: `~/.config/claude/claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "github-mcp-server": {
+      "command": "npx",
+      "args": ["github-mcp-server", "mcp"],
+      "env": {}
+    }
+  }
+}
+```
+
+#### Continue (VS Code Extension)
+**File**: `~/.continue/config.json`
+
+```json
+{
+  "models": [
+    {
+      "title": "GitHub MCP Assistant",
+      "provider": "anthropic",
+      "model": "claude-3-5-sonnet-20241022",
+      "contextLength": 200000,
+      "mcpServers": [
+        {
+          "name": "github-mcp-server",
+          "command": "npx",
+          "args": ["github-mcp-server", "mcp"],
+          "env": {}
+        }
+      ]
+    }
+  ]
+}
+```
+
+### 🚀 MCP 서버 직접 실행
+
+npm 패키지로 설치된 MCP 서버를 직접 실행할 수도 있습니다:
+
+```bash
+# 글로벌 설치 후
+npm install -g github-mcp-server
+github-mcp-server mcp
+
+# 또는 npx로 직접 실행
+npx github-mcp-server mcp
+```
+
+### 📋 사용 가능한 MCP 도구들
+
+MCP 서버를 통해 사용할 수 있는 29개 Git 작업:
+
+- **기본 작업**: git-status, git-add, git-commit, git-push, git-pull
+- **브랜치 관리**: git-branch, git-checkout, git-merge, git-rebase
+- **고급 작업**: git-tag, git-cherry-pick, git-blame, git-bisect
+- **워크플로우**: git-flow, git-sync, git-backup, git-clean
+
+**자세한 설정은 [markdown/MCP_UNIVERSAL_CONFIG.md](markdown/MCP_UNIVERSAL_CONFIG.md)**를 참조하세요.
+
 ## 🚀 Quick Usage Guide
 
 ### 📁 Basic Git Operations

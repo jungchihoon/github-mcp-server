@@ -24,11 +24,8 @@ This guide provides configuration examples for using GitHub MCP Server with vari
 {
   "mcpServers": {
     "github-mcp-server": {
-      "command": "wsl",
-      "args": [
-        "bash",
-        "/home/simplysabir/desktop/shariq-projects/github-mcp-server/start-mcp.sh"
-      ],
+      "command": "npx",
+      "args": ["github-mcp-server", "mcp"],
       "env": {}
     }
   }
@@ -50,8 +47,8 @@ This guide provides configuration examples for using GitHub MCP Server with vari
       "mcpServers": [
         {
           "name": "github-mcp-server",
-          "command": "bash",
-          "args": ["/home/simplysabir/desktop/shariq-projects/github-mcp-server/start-mcp.sh"],
+          "command": "npx",
+          "args": ["github-mcp-server", "mcp"],
           "env": {}
         }
       ]
@@ -99,8 +96,8 @@ This guide provides configuration examples for using GitHub MCP Server with vari
 {
   "mcpServers": {
     "github-mcp-server": {
-      "command": "bash",
-      "args": ["/home/simplysabir/desktop/shariq-projects/github-mcp-server/start-mcp.sh"],
+      "command": "npx",
+      "args": ["github-mcp-server", "mcp"],
       "env": {},
       "capabilities": ["tools", "resources", "prompts"]
     }
