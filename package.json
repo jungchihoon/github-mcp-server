@@ -1,9 +1,10 @@
 {
   "name": "github-mcp-server",
-  "version": "1.8.5",
+  "version": "1.8.6",
   "main": "dist/index.js",
   "bin": {
     "github-mcp-server": "mcp-cli.js",
+    "github-mcp-server-mcp": "dist/index.js",
     "gms": "mcp-cli.js",
     
     "gstatus": "mcp-cli.js",
@@ -79,6 +80,7 @@
     "rebuild": "pnpm run clean && pnpm run build",
     "version": "echo $npm_package_version",
     "mcp": "node mcp-cli.js",
+    "mcp-server": "node dist/index.js",
     "install:global": "pnpm run build && npm install -g .",
     "uninstall:global": "npm uninstall -g github-mcp-server",
     "dev:install": "pnpm run build && pnpm run install:global",
