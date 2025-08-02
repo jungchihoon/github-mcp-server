@@ -92,13 +92,30 @@ Cursor에서 GitHub MCP Server를 사용하려면 다음 설정을 추가하세�
 
 **File**: `~/.cursor/mcp_config.json`
 
+#### 🔑 GitHub 토큰 설정 (권장)
+
+GitHub 토큰을 설정하면 인증 오류 없이 Git 작업을 수행할 수 있습니다:
+
+1. **GitHub Personal Access Token 생성**:
+   - GitHub.com → Settings → Developer settings → Personal access tokens → Tokens (classic)
+   - "Generate new token" → "Generate new token (classic)"
+   - 권한 설정: `repo`, `workflow`, `write:packages` 등 필요한 권한 선택
+   - 토큰 생성 후 안전한 곳에 저장
+
+2. **환경변수 설정**:
+   - `GITHUB_TOKEN`: GitHub Personal Access Token
+   - `GITHUB_USERNAME`: GitHub 사용자명 (선택사항, 기본값: 'git')
+
 ```json
 {
   "mcpServers": {
     "github-mcp-server": {
       "command": "npx",
-      "args": ["github-mcp-server", "mcp"],
-      "env": {},
+      "args": ["github-mcp-server-mcp"],
+      "env": {
+        "GITHUB_TOKEN": "your_github_personal_access_token",
+        "GITHUB_USERNAME": "your_github_username"
+      },
       "capabilities": ["tools", "resources", "prompts"]
     }
   }

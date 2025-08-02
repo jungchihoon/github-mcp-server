@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "github-mcp-server": {
+      "command": "npx",
+      "args": ["github-mcp-server-mcp"],
+      "env": {},
+      "capabilities": ["tools", "resources", "prompts"]
+    }
+  }
+} 

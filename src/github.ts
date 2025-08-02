@@ -75,11 +75,22 @@ async function executeGitCommand(
       throw new Error('Invalid command: Only git commands are allowed');
     }
     
+    // Set up environment with GitHub token if available
+    const env: any = { 
+      ...process.env, 
+      LANG: 'en_US.UTF-8' // Ensure consistent output
+    };
+    
+    // If GitHub token is provided, configure Git to use it
+    if (process.env.GITHUB_TOKEN) {
+      env.GIT_AUTHORIZATION = `Bearer ${process.env.GITHUB_TOKEN}`;
+    }
+    
     const result = await execAsync(command, { 
       cwd: cwd || process.cwd(),
       encoding: 'utf8',
       timeout,
-      env: { ...process.env, LANG: 'en_US.UTF-8' } // Ensure consistent output
+      env
     });
     
     const duration = Date.now() - startTime;
@@ -120,6 +131,28 @@ async function executeGitCommand(
     gitError.stdout = error.stdout;
     gitError.code = error.code;
     throw gitError;
+  }
+}
+
+/**
+ * Configures Git to use GitHub token if provided
+ * @param directory - Directory to configure (defaults to current directory)
+ */
+async function configureGitToken(directory?: string): Promise<void> {
+  if (process.env.GITHUB_TOKEN) {
+    try {
+      const cwd = directory || process.cwd();
+      
+      // Configure Git to use the token for HTTPS authentication
+      await execAsync(`git config credential.helper '!echo "username=${process.env.GITHUB_USERNAME || 'git'}" && echo "password=${process.env.GITHUB_TOKEN}"'`, {
+        cwd,
+        timeout: VALIDATION_TIMEOUT
+      });
+      
+      console.error(`[GIT-CONFIG] GitHub token configured for ${cwd}`);
+    } catch (error) {
+      console.error(`[GIT-CONFIG-ERROR] Failed to configure GitHub token: ${error}`);
+    }
   }
 }
 
@@ -372,6 +405,9 @@ export async function gitPush(directory?: string): Promise<GitOperationResult> {
       return createResponse('git-push', 'Error: Not a git repository. Run "git init" to initialize.', true, workingDir, startTime);
     }
 
+    // Configure GitHub token if available
+    await configureGitToken(workingDir);
+
     // Get current working directory info for safety
     const currentDir = path.basename(workingDir);
     
@@ -435,6 +471,9 @@ export async function gitPull(directory?: string): Promise<GitOperationResult> {
     if (!(await isGitRepository(workingDir))) {
       throw new Error("Not a git repository");
     }
+
+    // Configure GitHub token if available
+    await configureGitToken(workingDir);
 
     const result = await executeGitCommand('git pull', workingDir);
     
